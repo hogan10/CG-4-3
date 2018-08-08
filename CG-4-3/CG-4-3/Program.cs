@@ -6,47 +6,69 @@ namespace CG_4_3
     {
         static void Main(string[] args)
         {
-            //We start simply by asking the user to input 30 names
-            Console.WriteLine("Please enter 30 names. Press enter after each name.");
-            Console.Write("Enter the first name here: ");
+            //NOTES FROM CLASS BELOW --> ask user to enter up to 30 names
+            Console.WriteLine("Enter 30 names.");
 
-            //The 30 names will be our array. we need to set up the array now
-            var names = new String[30];
-            var numberallnames = 0;
+            //track number of names entered
+            //why? bc our for loop coutner wil fall out of scope
+            int namesEntered = 0;
 
-            //next we have the loop that tells us we are going from 0
-            //up to 30
+            //store the names entered into an array
+            string[] names = new string[30];
+
+            //loop until we get 30 names or the user hits enter
+            //save the input from the user into the array
             for (int i = 0; i < 30; i++)
             {
-                //next we string all of the names
-                var userInput = Console.ReadLine();
-                //next we use a break in case they hit enter without
-                //entering a name
-                if (string.IsNullOrWhiteSpace(userInput)) break;
-                names[i] = userInput;
-                numberallnames = 1;
+                //read in a name from the user.
+                string nameEntered = Console.ReadLine();
 
+                //if the user hites enter without entering a name assume they're done
+                if (nameEntered == "") break;
+
+                //save the name entered into the next element of the array
+                names[i] = nameEntered;
+                
+                //increment our counter
+                namesEntered = i;
             }
+            //then you will randomly choose a name from the array and write it to the console
+            //you can use the ranom classs to generate
 
-            //next we need to draw names at random
-            var rnd = new Random();
-            var winner = rnd.Next(numberallnames);
+            Random randomizer = new Random();
 
-            //we need to write the winner to the console
-            Console.WriteLine(names[numberallnames] + " is the lucky winner!!");
+            //the nranomd number generate requires a min and max value
+            //our max value needs to be the number of names entered
 
-            //Now we list everyone that did not win 
-            Console.WriteLine("Sorry, the names listed did not win.");
+            int winner = randomizer.Next(0, namesEntered);
 
-            //we can list this using a loop!
-            for (int x = 0; x <= numberallnames; x++)
+            //now we have the index that contains the winner
+            //print the calue in that array position not the number of the winner
+
+            Console.WriteLine($"The winner is {names[winner]}!");
+
+            //then you will write the list of other names that did not win
+
+            //loop through all the names
+            foreach (string name in names)
             {
-                if (x == winner) continue;
-                Console.WriteLine(names[x]);
+                //if the name is NULL we hit the last entered name, stop looping.
+                //values in the string array started as null
+                //bc we stopped before entering the final blank we can check for null
+                if (name == null) break;
+
+                //if the name is winner do not print it
+                //make sure you are checking the value of the array
+
+                if (names[winner] == name) continue;
+
+                //print the name because it is a loesr
+                Console.WriteLine($"{name} lost.");
 
             }
-            //Actually list everything to the screen:
-            Console.Read();
+            Console.ReadLine();
+
+
         }
     }
 }
